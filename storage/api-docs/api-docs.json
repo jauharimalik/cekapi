@@ -32,7 +32,7 @@
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "123456"
+                                        "example": "admin123"
                                     }
                                 },
                                 "type": "object"
@@ -76,11 +76,11 @@
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "123456"
+                                        "example": "admin123"
                                     },
                                     "password_confirmation": {
                                         "type": "string",
-                                        "example": "123456"
+                                        "example": "admin123"
                                     }
                                 },
                                 "type": "object"
@@ -383,5 +383,27 @@
                 ]
             }
         }
-    }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "description": "Bearer token, Ex: Bearer <token>",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearer": {
+                "type": "apiKey",
+                "description": "Bearer token, Ex: Bearer <token>",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    ]
 }

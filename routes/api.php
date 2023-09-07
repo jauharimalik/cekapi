@@ -26,7 +26,11 @@ Route::group(['prefix' => 'auth'], function() {
 
 
 Route::any('login', [AuthController::class, 'login'])->name('login');
-Route::middleware('auth:sanctum')->group(function () {
+
+Route::group([
+    'middleware' => 'api'
+], function ($router) {
+    
     // Rute-rute yang dilindungi oleh token di sini
     //Route::resource('movies', MovieController::class);
     Route::post('/movies', [MovieController::class, 'store']);

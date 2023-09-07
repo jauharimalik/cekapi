@@ -46,7 +46,7 @@ class AuthController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="email", type="string", example="jauharimalikupil@gmail.com"),
-     *              @OA\Property(property="password", type="string", example="123456")
+     *              @OA\Property(property="password", type="string", example="admin123")
      *          ),
      *      ),
      *      @OA\Response(response=200, description="Login"),
@@ -57,18 +57,15 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         try {
-                
-            //
             $credentials = $request->only('email', 'password');
 
-            if (Auth::attempt($credentials)) {
-                $user = Auth::user();
-                $token = $user->createToken('Flix')->plainTextToken;
-                
-                return response()->json(['token' => $token], 200);
+            if ($token = $this->guard()->attempt($credentials)) {
+                $data =  $this->respondWithToken($token);
+            } else {
+                return $this->responseError(null, 'Invalid Email and Password !', Response::HTTP_UNAUTHORIZED);
             }
-        
-            return response()->json(['error' => 'Unauthorized'], 401);
+
+            return $this->responseSuccess($data, 'Logged In Successfully !');
         } catch (\Exception $e) {
             return $this->responseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -85,8 +82,8 @@ class AuthController extends Controller
      *              type="object",
      *              @OA\Property(property="name", type="string", example="Jauhari Malik"),
      *              @OA\Property(property="email", type="string", example="jauharimalikupil@gmail.com"),
-     *              @OA\Property(property="password", type="string", example="123456"),
-     *              @OA\Property(property="password_confirmation", type="string", example="123456")
+     *              @OA\Property(property="password", type="string", example="admin123"),
+     *              @OA\Property(property="password_confirmation", type="string", example="admin123")
      *          ),
      *      ),
      *      @OA\Response(response=200, description="Register New User Data" ),
