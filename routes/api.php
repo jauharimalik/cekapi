@@ -16,18 +16,27 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+Route::group(['prefix' => 'auth'], function() {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::get('me', [AuthController::class, 'me']);
+});
 
-Route::get('login', [AuthController::class, 'login'])->name('login');
-Route::post('login', [AuthController::class, 'login']);
+
+Route::any('login', [AuthController::class, 'login'])->name('login');
 Route::middleware('auth:sanctum')->group(function () {
     // Rute-rute yang dilindungi oleh token di sini
     //Route::resource('movies', MovieController::class);
-    
-    Route::get('/moviesx', [MovieController::class, 'index']);
     Route::post('/movies', [MovieController::class, 'store']);
+    Route::post('/movies/{movie}', [MovieController::class, 'update']);
     Route::put('/movies/{movie}', [MovieController::class, 'update']);
+    Route::patch('/movies/{movie}', [MovieController::class, 'update']);
     Route::delete('/movies/{movie}', [MovieController::class, 'destroy']);
 });
 
+
 Route::get('/movies', [MovieController::class, 'index']);
 Route::get('/movies/{movie}', [MovieController::class, 'show']);
+
