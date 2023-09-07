@@ -26,7 +26,7 @@ class MovieController extends Controller
 {
     /**
      * @OA\GET(
-     *     path="/movies",
+     *     path="/api/movies",
      *     tags={"Movies"},
      *     summary="Get list of movies",
      *     description="Returns list of movies",
@@ -45,7 +45,7 @@ class MovieController extends Controller
 
 /**
  * @OA\Post(
- *     path="/movies",
+ *     path="/api/movies",
  *     operationId="createMovie",
  *     tags={"Movies"},
  *     summary="Create a new movie",
@@ -73,7 +73,7 @@ class MovieController extends Controller
 
      /**
      * @OA\GET(
-     *     path="/movies/{movie}",
+     *     path="/api/movies/{movie}",
      *     operationId="getMovieById",
      *     tags={"Movies"},
      *     summary="Get a movie by ID",
@@ -91,7 +91,7 @@ class MovieController extends Controller
     }
 /**
  * @OA\Patch(
- *     path="/movies/{movie}",
+ *     path="/api/movies/{movie}",
  *     operationId="updateMovie",
  *     tags={"Movies"},
  *     summary="Update Movie",
@@ -130,7 +130,7 @@ public function update(Request $request, Movie $movie)
 }
 /**
  * @OA\Delete(
- *     path="/movies/{movie}",
+ *     path="/api/movies/{movie}",
  *     tags={"Movies"},
  *     summary="Delete Movie",
  *     description="Delete Movie from Database",
