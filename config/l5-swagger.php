@@ -155,6 +155,7 @@ return [
                     'bearerFormat' => 'JWT',
                 ],
             ],
+            
             'security' => [
                 /*
                 * Examples of Securities

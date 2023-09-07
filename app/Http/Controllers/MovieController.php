@@ -8,6 +8,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\Controller;
+use App\Traits\ResponseTrait;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+
+
 /**
  * @OA\Info(
  *     description="API Documentation Test Flix",
@@ -24,14 +30,17 @@ use App\Http\Controllers\AuthController;
  */
 class MovieController extends Controller
 {
+    use ResponseTrait;
+
+    public $user;
+
     /**
      * @OA\GET(
-     *     path="/api/movies",
+     *     path="/flix/api/movies",
      *     tags={"Movies"},
      *     summary="Get list of movies",
      *     description="Returns list of movies",
      *     operationId="index movies",
-     *     security={{"bearer":{}}},
      *     @OA\Response(response=200,description="Get Movies List as Array"),
      *     @OA\Response(response=400, description="Bad request"),
      *     @OA\Response(response=404, description="Resource Not Found"),
@@ -40,16 +49,22 @@ class MovieController extends Controller
 
     public function index()
     {
-        return Movie::all();
+        
+        try {
+            return $this->responseSuccess(Movie::all(), 'Movie List Fetch Successfully !');
+        } catch (\Exception $e) {
+            return $this->responseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
 /**
  * @OA\Post(
- *     path="/api/movies",
+ *     path="/flix/api/movies",
  *     operationId="createMovie",
  *     tags={"Movies"},
  *     summary="Create a new movie",
  *     description="Creates a new movie record",
+ *     security={{"bearer":{}}},
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
@@ -68,17 +83,20 @@ class MovieController extends Controller
 
     public function store(Request $request)
     {
-        return Movie::create($request->all());
+        try {
+            return $this->responseSuccess(Movie::create($request->all()), 'Create Movie Successfully !');
+        } catch (\Exception $e) {
+            return $this->responseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
      /**
      * @OA\GET(
-     *     path="/api/movies/{movie}",
+     *     path="/flix/api/movies/{movie}",
      *     operationId="getMovieById",
      *     tags={"Movies"},
      *     summary="Get a movie by ID",
      *     description="Returns a movie by its ID",
-     *     security={{"bearer":{}}},
      *     @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="Show Movies Details"),
      *     @OA\Response(response=400, description="Bad request"),
@@ -87,15 +105,20 @@ class MovieController extends Controller
      */
     public function show(Movie $movie)
     {
-        return $movie;
+        try {
+            return $this->responseSuccess($movie, 'Movie Details Fetch Successfully !');
+        } catch (\Exception $e) {
+            return $this->responseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 /**
  * @OA\Patch(
- *     path="/api/movies/{movie}",
+ *     path="/flix/api/movies/{movie}",
  *     operationId="updateMovie",
  *     tags={"Movies"},
  *     summary="Update Movie",
  *     description="Updates a movie by its ID",
+ *     security={{"bearer":{}}},
  *     @OA\Parameter(
  *         name="movie",
  *         in="path",
@@ -125,12 +148,16 @@ class MovieController extends Controller
  */
 public function update(Request $request, Movie $movie)
 {
-    $movie->update($request->all());
-    return $movie;
+    try {
+        $movie->update($request->all());
+        return $this->responseSuccess($movie, 'Update Movie Successfully !');
+    } catch (\Exception $e) {
+        return $this->responseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
 }
 /**
  * @OA\Delete(
- *     path="/api/movies/{movie}",
+ *     path="/flix/api/movies/{movie}",
  *     tags={"Movies"},
  *     summary="Delete Movie",
  *     description="Delete Movie from Database",
@@ -150,7 +177,12 @@ public function update(Request $request, Movie $movie)
  */
     public function destroy(Movie $movie)
     {
-        $movie->delete();
-        return response()->json(null, 204);
+        try {           
+            $movie->delete();
+            return response()->json(null, 204);
+        } catch (\Exception $e) {
+            return $this->responseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
     }
 }
