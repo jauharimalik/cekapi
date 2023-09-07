@@ -38,7 +38,7 @@ class AuthController extends Controller
 
     /**
      * @OA\POST(
-     *     path="/flix/api/auth/login",
+     *     path="/api/auth/login",
      *     tags={"Authentication"},
      *     summary="Login",
      *     description="Login",
@@ -73,7 +73,7 @@ class AuthController extends Controller
 
     /**
      * @OA\POST(
-     *     path="/flix/api/auth/register",
+     *     path="/api/auth/register",
      *     tags={"Authentication"},
      *     summary="Register User",
      *     description="Register New User",
@@ -109,7 +109,7 @@ class AuthController extends Controller
 
     /**
      * @OA\GET(
-     *     path="/flix/api/auth/me",
+     *     path="/api/auth/me",
      *     tags={"Authentication"},
      *     summary="Authenticated User Profile",
      *     description="Authenticated User Profile",
@@ -131,7 +131,7 @@ class AuthController extends Controller
 
     /**
      * @OA\POST(
-     *     path="/flix/api/auth/logout",
+     *     path="/api/auth/logout",
      *     tags={"Authentication"},
      *     summary="Logout",
      *     description="Logout",
@@ -152,7 +152,7 @@ class AuthController extends Controller
 
     /**
      * @OA\POST(
-     *     path="/flix/api/auth/refresh",
+     *     path="/api/auth/refresh",
      *     tags={"Authentication"},
      *     summary="Refresh",
      *     description="Refresh",
